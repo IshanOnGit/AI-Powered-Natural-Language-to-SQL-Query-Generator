@@ -1,0 +1,96 @@
+TABLE Album
+  AlbumId INTEGER PRIMARY KEY
+  ArtistId INTEGER NOT NULL
+  Title NVARCHAR NOT NULL
+  FOREIGN KEY (ArtistId) -> Artist(ArtistId)
+
+TABLE Artist
+  ArtistId INTEGER PRIMARY KEY
+  Name NVARCHAR
+
+TABLE Customer
+  Address NVARCHAR
+  City NVARCHAR
+  Company NVARCHAR
+  Country NVARCHAR
+  CustomerId INTEGER PRIMARY KEY
+  Email NVARCHAR NOT NULL
+  Fax NVARCHAR
+  FirstName NVARCHAR NOT NULL
+  LastName NVARCHAR NOT NULL
+  Phone NVARCHAR
+  PostalCode NVARCHAR
+  State NVARCHAR
+  SupportRepId INTEGER
+  FOREIGN KEY (SupportRepId) -> Employee(EmployeeId)
+
+TABLE Employee
+  Address NVARCHAR
+  BirthDate DATETIME
+  City NVARCHAR
+  Country NVARCHAR
+  Email NVARCHAR
+  EmployeeId INTEGER PRIMARY KEY
+  Fax NVARCHAR
+  FirstName NVARCHAR NOT NULL
+  HireDate DATETIME
+  LastName NVARCHAR NOT NULL
+  Phone NVARCHAR
+  PostalCode NVARCHAR
+  ReportsTo INTEGER
+  State NVARCHAR
+  Title NVARCHAR
+  FOREIGN KEY (ReportsTo) -> Employee(EmployeeId)
+
+TABLE Genre
+  GenreId INTEGER PRIMARY KEY
+  Name NVARCHAR
+
+TABLE Invoice
+  BillingAddress NVARCHAR
+  BillingCity NVARCHAR
+  BillingCountry NVARCHAR
+  BillingPostalCode NVARCHAR
+  BillingState NVARCHAR
+  CustomerId INTEGER NOT NULL
+  InvoiceDate DATETIME NOT NULL
+  InvoiceId INTEGER PRIMARY KEY
+  Total NUMERIC NOT NULL
+  FOREIGN KEY (CustomerId) -> Customer(CustomerId)
+
+TABLE InvoiceLine
+  InvoiceId INTEGER NOT NULL
+  InvoiceLineId INTEGER PRIMARY KEY
+  Quantity INTEGER NOT NULL
+  TrackId INTEGER NOT NULL
+  UnitPrice NUMERIC NOT NULL
+  FOREIGN KEY (InvoiceId) -> Invoice(InvoiceId)
+  FOREIGN KEY (TrackId) -> Track(TrackId)
+
+TABLE MediaType
+  MediaTypeId INTEGER PRIMARY KEY
+  Name NVARCHAR
+
+TABLE Playlist
+  Name NVARCHAR
+  PlaylistId INTEGER PRIMARY KEY
+
+TABLE PlaylistTrack
+  PlaylistId INTEGER PRIMARY KEY
+  TrackId INTEGER PRIMARY KEY
+  FOREIGN KEY (PlaylistId) -> Playlist(PlaylistId)
+  FOREIGN KEY (TrackId) -> Track(TrackId)
+
+TABLE Track
+  AlbumId INTEGER
+  Bytes INTEGER
+  Composer NVARCHAR
+  GenreId INTEGER
+  MediaTypeId INTEGER NOT NULL
+  Milliseconds INTEGER NOT NULL
+  Name NVARCHAR NOT NULL
+  TrackId INTEGER PRIMARY KEY
+  UnitPrice NUMERIC NOT NULL
+  FOREIGN KEY (AlbumId) -> Album(AlbumId)
+  FOREIGN KEY (GenreId) -> Genre(GenreId)
+  FOREIGN KEY (MediaTypeId) -> MediaType(MediaTypeId)

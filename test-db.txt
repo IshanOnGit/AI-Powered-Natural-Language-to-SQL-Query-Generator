@@ -1,0 +1,5 @@
+D:\TextToSQL\benchmark\fixtures\chinook.sqlite
+
+# Start the backend code
+cd backend
+uvicorn app.main:app --reload

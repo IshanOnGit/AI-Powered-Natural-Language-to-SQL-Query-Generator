@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Text-to-SQL</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500&family=Schibsted+Grotesk:wght@400;500;700&display=swap">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="layout">
+
+    <!-- Left rail: connection -->
+    <aside class="rail" aria-label="Database connection">
+      <h1 class="brand">Text-to-SQL</h1>
+
+      <section id="connect-panel">
+        <h2>Connect a database</h2>
+        <form id="connect-form" autocomplete="off">
+          <label for="db-type">Database type</label>
+          <select id="db-type">
+            <option value="postgresql">PostgreSQL</option>
+            <option value="mysql">MySQL</option>
+            <option value="sqlite">SQLite</option>
+          </select>
+
+          <div id="server-fields">
+            <label for="host">Host</label>
+            <input id="host" type="text" value="localhost" spellcheck="false">
+
+            <label for="port">Port</label>
+            <input id="port" type="number" min="1" max="65535" value="5432">
+
+            <label for="database">Database</label>
+            <input id="database" type="text" spellcheck="false">
+
+            <label for="username">Username</label>
+            <input id="username" type="text" spellcheck="false">
+
+            <label for="password">Password</label>
+            <input id="password" type="password" autocomplete="new-password">
+          </div>
+
+          <div id="file-fields" hidden>
+            <label for="file-path">File path</label>
+            <input id="file-path" type="text" spellcheck="false" placeholder="D:\data\chinook.db">
+          </div>
+
+          <button type="submit" id="connect-btn" class="btn btn-main">Connect</button>
+          <p id="connect-error" class="form-error" role="alert" hidden></p>
+          <p class="hint">For safety, use a read-only database user.</p>
+        </form>
+      </section>
+
+      <section id="connected-panel" hidden>
+        <h2>Your database</h2>
+        <p id="connected-summary" class="summary"></p>
+        <ul id="schema-warnings" class="notice-list" hidden></ul>
+        <div class="row">
+          <button type="button" id="refresh-btn" class="btn">Refresh schema</button>
+          <button type="button" id="disconnect-btn" class="btn">Disconnect</button>
+        </div>
+      </section>
+    </aside>
+
+    <!-- Main: ask, review, results -->
+    <main class="main">
+      <section class="block" id="ask-block" aria-labelledby="ask-title">
+        <div class="block-head">
+          <h2 id="ask-title">Ask a question</h2>
+          <div class="provider">
+            <label for="provider">Model</label>
+            <select id="provider"></select>
+          </div>
+        </div>
+        <p id="provider-note" class="hint"></p>
+        <label for="question" class="visually-hidden">Your question</label>
+        <textarea id="question" rows="3" placeholder="For example: Which five customers spent the most?"></textarea>
+        <div class="row row-between">
+          <span class="hint">Press Ctrl+Enter to generate.</span>
+          <button type="button" id="generate-btn" class="btn btn-main">Generate query</button>
+        </div>
+      </section>
+
+      <section id="outcome" class="block" aria-live="polite" hidden></section>
+      <section id="results" class="block" aria-live="polite" hidden></section>
+    </main>
+
+  </div>
+  <script src="app.js"></script>
+</body>
+</html>

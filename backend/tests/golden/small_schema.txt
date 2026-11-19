@@ -1,0 +1,13 @@
+TABLE customers
+  customer_id INTEGER PRIMARY KEY
+  email VARCHAR NOT NULL
+  support_rep_id INTEGER
+  FOREIGN KEY (support_rep_id) -> employees(employee_id)
+
+TABLE employees
+  employee_id INTEGER PRIMARY KEY
+  name VARCHAR NOT NULL
+
+VIEW top_customers
+  customer_id INTEGER
+  email VARCHAR

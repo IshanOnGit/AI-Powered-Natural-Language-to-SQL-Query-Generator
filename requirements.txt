@@ -1,0 +1,24 @@
+# Web app
+fastapi==0.143.0
+uvicorn[standard]==0.54.0
+python-dotenv==1.2.4
+
+# Database access
+SQLAlchemy==2.0.54
+psycopg2-binary==2.9.13
+PyMySQL==1.2.3
+
+# SQL checking
+sqlglot==30.21.0
+
+# LLM providers
+langchain-core==1.6.9
+langchain-ollama==1.1.0
+langchain-google-genai==4.4.0
+
+# Benchmark
+PyYAML==6.0.3
+
+# Tests
+pytest==9.1.1
+httpx==0.28.1

@@ -1,0 +1,50 @@
+# Sakila (DVD rental). Written BEFORE the first run. Do not edit to improve results.
+
+- id: sakila-01
+  fixture: sakila
+  question: "List the titles of all films that have a rating of PG-13 and are longer than 180 minutes."
+  reference_sql: "SELECT title FROM film WHERE rating = 'PG-13' AND length > 180"
+
+- id: sakila-02
+  fixture: sakila
+  question: "Show the first and last name of every actor who appeared in the film ACADEMY DINOSAUR."
+  reference_sql: >
+    SELECT a.first_name, a.last_name FROM actor a
+    JOIN film_actor fa ON fa.actor_id = a.actor_id
+    JOIN film f ON f.film_id = fa.film_id
+    WHERE f.title = 'ACADEMY DINOSAUR'
+
+- id: sakila-03
+  fixture: sakila
+  question: "How many films are there in each category? Show the category name and the number of films."
+  reference_sql: >
+    SELECT c.name, COUNT(*) FROM category c
+    JOIN film_category fc ON fc.category_id = c.category_id
+    GROUP BY c.category_id, c.name
+
+- id: sakila-04
+  fixture: sakila
+  question: "Which 3 film categories have been rented the most? Show the category name and the number of rentals, highest first."
+  reference_sql: >
+    SELECT c.name, COUNT(*) AS rentals
+    FROM rental r JOIN inventory i ON i.inventory_id = r.inventory_id
+    JOIN film_category fc ON fc.film_id = i.film_id
+    JOIN category c ON c.category_id = fc.category_id
+    GROUP BY c.category_id, c.name ORDER BY rentals DESC LIMIT 3
+  ordered: true
+
+- id: sakila-05
+  fixture: sakila
+  question: "How many rentals were made in May 2005? Show a single number."
+  reference_sql: "SELECT COUNT(*) FROM rental WHERE rental_date >= '2005-05-01' AND rental_date < '2005-06-01'"
+
+# Ambiguity set: reported separately, not part of accuracy.
+- id: sakila-A1
+  fixture: sakila
+  question: "Show me the best films."
+  expect: clarification
+
+- id: sakila-A2
+  fixture: sakila
+  question: "What is the home address of each actor?"
+  expect: not_found

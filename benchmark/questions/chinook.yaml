@@ -1,0 +1,47 @@
+# Chinook (music store). Written BEFORE the first run. Do not edit to improve results;
+# if a question is truly ambiguous, change it and record that in spec-benchmark.md.
+
+- id: chinook-01
+  fixture: chinook
+  question: "Show the first name, last name and email of every customer who lives in Brazil."
+  reference_sql: "SELECT FirstName, LastName, Email FROM Customer WHERE Country = 'Brazil'"
+
+- id: chinook-02
+  fixture: chinook
+  question: "Show the title of every album by the artist Led Zeppelin."
+  reference_sql: >
+    SELECT al.Title FROM Album al JOIN Artist ar ON ar.ArtistId = al.ArtistId
+    WHERE ar.Name = 'Led Zeppelin'
+
+- id: chinook-03
+  fixture: chinook
+  question: "How many customers are there in each country? Show the country and the number of customers."
+  reference_sql: "SELECT Country, COUNT(*) FROM Customer GROUP BY Country"
+
+- id: chinook-04
+  fixture: chinook
+  question: >
+    Which 3 genres have the highest total sales? Sales means unit price times quantity
+    on the invoice lines. Show the genre name and the total sales, highest first.
+  reference_sql: >
+    SELECT g.Name, SUM(il.UnitPrice * il.Quantity) AS total
+    FROM InvoiceLine il JOIN Track t ON t.TrackId = il.TrackId
+    JOIN Genre g ON g.GenreId = t.GenreId
+    GROUP BY g.GenreId, g.Name ORDER BY total DESC LIMIT 3
+  ordered: true
+
+- id: chinook-05
+  fixture: chinook
+  question: "What is the total amount of all invoices issued in the year 2022? Show a single number."
+  reference_sql: "SELECT SUM(Total) FROM Invoice WHERE InvoiceDate >= '2022-01-01' AND InvoiceDate < '2023-01-01'"
+
+# Ambiguity set: reported separately, not part of accuracy.
+- id: chinook-A1
+  fixture: chinook
+  question: "Who are our top customers?"
+  expect: clarification
+
+- id: chinook-A2
+  fixture: chinook
+  question: "What is the average customer age?"
+  expect: not_found
