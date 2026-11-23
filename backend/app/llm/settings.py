@@ -37,6 +37,6 @@ def load_settings() -> LLMSettings:
         gemini_api_key=os.environ.get("GEMINI_API_KEY") or None,
         gemini_model=os.environ.get("GEMINI_MODEL", "gemini-2.5-flash"),
         ollama_base_url=os.environ.get("OLLAMA_BASE_URL", "http://localhost:11434").rstrip("/"),
-        ollama_model=os.environ.get("OLLAMA_MODEL", "qwen2.5:7b"),
+        ollama_model=os.environ.get("OLLAMA_MODEL", "qwen2.5-coder:7b"),
         ollama_num_ctx=_number("OLLAMA_NUM_CTX", "8192", int),
     )

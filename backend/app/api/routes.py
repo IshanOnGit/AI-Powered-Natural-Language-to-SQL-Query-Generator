@@ -51,6 +51,12 @@ def _require_connection() -> Connection:
 def _read_schema(connection: Connection) -> dict:
     info = extract_schema(connection)
     session.schema_text = info.render_text()
+
+    ## Uncomment these lines to see the schema in the server logs, for debugging.
+    #print("\n========== DATABASE SCHEMA ==========")
+    #print(session.schema_text)
+    #print("======================================\n")
+
     session.table_count = len(info.tables)
     session.schema_warnings = list(info.warnings)
     return {"db_type": connection.db_type, "table_count": session.table_count,

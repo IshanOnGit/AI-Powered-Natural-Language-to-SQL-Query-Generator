@@ -14,6 +14,7 @@ from app.llm.errors import (
 from app.llm.settings import LLMSettings, load_settings
 
 
+
 class OllamaProvider(BaseProvider):
     """Local model through Ollama, using LangChain."""
 
@@ -85,8 +86,10 @@ def _translate(exc: Exception, s: LLMSettings) -> LLMError:
             return SetupProblem(
                 f"Model not found. Run `ollama pull {s.ollama_model}` and try again."
             )
-        if status in (429, 503):
+        if status == 429:
             return RateLimited()
+        if status == 503:
+            return Unreachable("Ollama server is temporarily unavailable.")
         if "context" in text or "too long" in text:
             return ContextTooLong()
     return Unknown()

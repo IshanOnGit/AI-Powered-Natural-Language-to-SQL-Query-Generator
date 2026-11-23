@@ -11,6 +11,18 @@ def generate_query(inp: GenerateQueryInput, provider: LLMProvider) -> GenerateQu
     """
     try:
         response = provider.generate(build_request(inp))
+
+        print(f"\n[LLM DEBUG] Provider: {response.provider}")
+        print(f"[LLM DEBUG] Model: {response.model}")
+        print(f"[LLM DEBUG] Raw response:\n{response.text}")
+
+        result = read_reply(response.text)
+
+        print(f"\n[PARSE DEBUG] Status: {result.status}")
+        print(f"[PARSE DEBUG] Result: {result}")
+
+        return result
+    
     except LLMError as e:
+        print(f"\n[LLM ERROR] {e.message}")
         return GenerateQueryResult(status=ERROR, message=e.message)
-    return read_reply(response.text)
